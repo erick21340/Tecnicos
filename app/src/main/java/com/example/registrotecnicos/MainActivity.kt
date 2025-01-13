@@ -11,37 +11,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.registrotecnicos.ui.theme.RegistroTecnicosTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            RegistroTecnicosTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
+
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RegistroTecnicosTheme {
-        Greeting("Android")
-    }
-}
+@Entity(tableName = " Registro Tecnicos")
+data class TecnicosEntity(
+    @PrimaryKey
+    val TecnicoId: Int? = null,
+    val tecnicos: String = "",
+    val sueldo: Double = 0.0
+)
