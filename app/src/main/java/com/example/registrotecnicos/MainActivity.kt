@@ -19,23 +19,36 @@ import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.Upsert
 import com.example.registrotecnicos.ui.theme.RegistroTecnicosTheme
 import kotlinx.coroutines.flow.Flow
 
 class MainActivity : ComponentActivity() {
+    private lateinit var TecnicoDb: TecnicoDb
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        TecnicoDb = Room.databaseBuilder(
+            applicationContext,
+            TecnicoDb::class.java,
+            "tecnicodata"
+
+        ).fallbackToDestructiveMigration()
+            .build()
     }
 }
+
+
+
+
 
 @Entity(tableName = " Tecnicos")
 data class TecnicosEntity(
     @PrimaryKey
-    val TecnicoId: Int? = null,
+    val tecnicoId: Int? = null,
     val tecnicos: String = "",
     val sueldo: Double = 0.0
 )
@@ -47,7 +60,7 @@ interface TecnicoDao {
     suspend fun save(tecnico: TecnicosEntity)
 
 
-    @Query("SELECT * FROM ` tecnicos` WHERE TecnicoId = :id")
+    @Query("SELECT * FROM ` tecnicos` WHERE tecnicoId = :id")
     suspend fun find(id: Int): TecnicosEntity?
 
 
@@ -67,5 +80,5 @@ interface TecnicoDao {
     exportSchema = false
 )
 abstract  class  TecnicoDb : RoomDatabase(){
-    abstract  fun  TecnicoDao(): TecnicoDao
+    abstract  fun  tecnicoDao(): TecnicoDao
 }
